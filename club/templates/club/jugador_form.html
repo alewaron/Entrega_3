@@ -1,0 +1,12 @@
+{% extends "club/base.html" %}
+
+{% block titulo %} Nuevo Jugador {% endblock %}
+
+{% block contenido %}
+    <h2>Inscribir Nuevo Jugador</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Guardar Jugador</button>
+    </form>
+{% endblock %}

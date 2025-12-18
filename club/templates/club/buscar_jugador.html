@@ -1,0 +1,63 @@
+{% extends "club/base.html" %}
+
+{% block titulo %} Buscar Jugador {% endblock %}
+
+{% block contenido %}
+    <h2 class="mb-4" style="color: #1a5928;">Buscador de Jugadores</h2>
+    
+    <form action="{% url 'resultado_busqueda' %}" method="GET" class="d-flex mb-5">
+        <input name="apellido" class="form-control me-2" type="search" placeholder="Escribí el apellido del jugador..." required>
+        <button class="btn text-white" style="background-color: #003366;" type="submit">Buscar</button>
+    </form>
+
+    <hr>
+
+    <h3 class="mt-4 mb-3" style="color: #1a5928;">Jugadores Registrados</h3>
+    
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle bg-white mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 30%;">Nombre y Apellido</th>
+                    <th style="width: 25%;">Fecha de Nacimiento</th>
+                    <th style="width: 45%;">Categoría Actual</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for j in jugadores %}
+                <tr>
+                    <td class="fw-bold">{{ j.nombre }} {{ j.apellido }}</td>
+                    <td>{{ j.fecha_nacimiento|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if j.id in ids_inscriptos %}
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for inscripcion in inscripciones %}
+                                    {% if inscripcion.jugador_id == j.id %}
+                                        <div class="btn-group btn-group-sm shadow-sm" role="group">
+                                            <span class="btn btn-success disabled opacity-100 py-1" style="font-size: 0.85rem;">
+                                                {{ inscripcion.categoria.nombre }}
+                                            </span>
+                                            <form action="{% url 'eliminar_inscripcion' inscripcion.id %}" method="POST" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger py-1" onclick="return confirm('¿Seguro quieres quitar a este jugador de esta categoría?')">
+                                                    &times;
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <span class="text-muted fst-italic">No inscripto</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if not jugadores %}
+        <div class="alert alert-light border mt-3">No hay jugadores cargados en el sistema.</div>
+    {% endif %}
+{% endblock %}

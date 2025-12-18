@@ -1,0 +1,64 @@
+{% extends "club/base.html" %}
+
+{% block contenido %}
+<div class="text-center py-4">
+    <h1 class="display-5 fw-bold" style="color: #1a5928;">Bienvenido al Club Pancho</h1>
+    <p class="lead italic">"Te invitamos a ser parte de este hermoso club de fútbol"</p>
+    
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <a href="{% url 'crear_jugador' %}" class="btn btn-success btn-lg shadow-sm">
+             Nuevo Jugador
+        </a>
+        <a href="{% url 'crear_solicitud' %}" class="btn btn-warning btn-lg shadow-sm">
+             Inscribir en Categoría
+        </a>
+        <a href="{% url 'buscar_jugador' %}" class="btn btn-lg shadow-sm text-white" style="background-color: #003366;">
+             Buscar Jugador
+        </a>
+    </div>
+
+    <div class="alert alert-light border shadow-sm mt-4 mx-auto" style="max-width: 700px;">
+        <p class="mb-0 text-muted">
+            <strong>Guía rápida:</strong> Primero registra al deportista en <em>Nuevo Jugador</em> y luego asígnale un lugar en la lista de <em>Inscribir</em>.
+        </p>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="mt-4">
+    <h3 class="text-center mb-4 text-secondary">Estas son nuestras categorías</h3>
+    
+    {% if categorias %}
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle bg-white">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Año Desde</th>
+                        <th>Año Hasta</th>
+                        <th>Profesor</th>
+                        <th>Días y Horarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cat in categorias %}
+                    <tr>
+                        <td class="fw-bold">{{ cat.nombre }}</td>
+                        <td>{{ cat.anio_nacimiento_desde }}</td>
+                        <td>{{ cat.anio_nacimiento_hasta }}</td>
+                        <td>{{ cat.profesor }}</td>
+                        <td>{{ cat.dias_horarios }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center p-5 bg-light rounded border">
+            <p class="text-muted">Aún no hay categorías cargadas.</p>
+            <a href="{% url 'crear_categoria' %}" class="btn btn-primary">Cargar Primera Categoría</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

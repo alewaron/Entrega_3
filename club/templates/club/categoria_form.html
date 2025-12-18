@@ -1,0 +1,12 @@
+{% extends "club/base.html" %}
+
+{% block titulo %} Nueva Categoría {% endblock %}
+
+{% block contenido %}
+    <h2>Crear Nueva Categoría</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar Categoría</button>
+    </form>
+{% endblock %}

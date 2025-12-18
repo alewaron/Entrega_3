@@ -1,0 +1,33 @@
+{% extends "club/base.html" %}
+
+{% block contenido %}
+    <h2>Resultados para: "{{ termino }}"</h2>
+    <hr>
+    
+    {% if jugadores %}
+        <table class="table table-striped mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Responsable</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for j in jugadores %}
+                <tr>
+                    <td>{{ j.nombre }}</td>
+                    <td>{{ j.apellido }}</td>
+                    <td>{{ j.dni }}</td>
+                    <td>{{ j.responsable }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-danger">No se encontraron jugadores con ese apellido.</div>
+    {% endif %}
+
+    <a href="{% url 'buscar_jugador' %}" class="btn btn-secondary mt-3">Volver a buscar</a>
+{% endblock %}
